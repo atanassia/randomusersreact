@@ -8,47 +8,58 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      people: [],
+      num: '',
+      profile: false
     }
+    this.onNumberChange = this.onNumberChange.bind(this);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
-  componentDidMount(){
-    fetch('https://randomuser.me/api/?results=3')
-    .then(results => {
-      return results.json();
-    }).then(data => {
-      let names = data.results.map((person) => {
-        let title = person.name.title;
-        let firstname = person.name.first;
-        let lastname = person.name.last;
-        let fullname = `${title} ${firstname} ${lastname}`
-        console.log(fullname);
-        let userpic = person.picture.large
-        this.setState((prevState)=> ({
-          people: [
-            ...prevState.people,
-            {
-              name: fullname,
-              picsrc: userpic
-            }
-          ]
-        }))
-        console.log(this.state);
-
-      })
-
+  onNumberChange(e){
+    e.preventDefault();
+    this.setState({
+      num: e.target.value,
+      profile: false
     })
+  }
 
+  onFormSubmit(e){
+    e.preventDefault();
+    this.setState({
+      profile: true
+    })
   }
 
   render() {
+    let profile = this.state.profile
+    if(!profile) {
     return (
       <MuiThemeProvider>
         <div className="App">
-        <UserProfile people={this.state.people}/>
+        <h1>Random User Generator</h1>
+        <h3>How many users would you like?</h3>
+          <form onSubmit={this.onFormSubmit}>
+            <input type="number" value={this.state.num} onChange={this.onNumberChange}/>
+            <button>Submit</button>
+          </form>
         </div>
       </MuiThemeProvider>
-    );
+    )
+  } else {
+      return (
+        <MuiThemeProvider>
+          <div className="App">
+          <h1>Random User Generator</h1>
+          <h3>How many users would you like?</h3>
+            <form onSubmit={this.onFormSubmit}>
+              <input type="number" value={this.state.num} onChange={this.onNumberChange}/>
+              <button>Submit</button>
+            </form>
+            <UserProfile number={this.state.num}/>
+          </div>
+        </MuiThemeProvider>
+      )
+    };
   }
 }
 
