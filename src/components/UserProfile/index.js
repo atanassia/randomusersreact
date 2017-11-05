@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Card, CardHeader} from 'material-ui/Card'
+import {Card, CardHeader, CardTitle, CardText} from 'material-ui/Card'
 
 import './UserProfile.css'
 
@@ -17,17 +17,21 @@ class UserProfile extends Component {
       return results.json();
     }).then(data => {
       let names = data.results.map((person) => {
-        let title = person.name.title;
-        let firstname = person.name.first;
-        let lastname = person.name.last;
-        let fullname = `${title} ${firstname} ${lastname}`
-        let userpic = person.picture.large
+        let title = capitalise(person.name.title);
+        let firstname = capitalise(person.name.first);
+        let lastname = capitalise(person.name.last);
+        let fullname = `${title} ${firstname} ${lastname}`;
+        let userpic = person.picture.large;
+        let email = person.email;
+        let city = capitalise(person.location.city);
         this.setState((prevState)=> ({
           people: [
             ...prevState.people,
             {
               name: fullname,
-              picsrc: userpic
+              picsrc: userpic,
+              email,
+              city
             }
           ]
         }))
@@ -44,11 +48,18 @@ class UserProfile extends Component {
       return(
               <Card className="cards" key={idx}>
               <CardHeader title={obj.name} avatar={obj.picsrc} />
+              <CardTitle title={obj.city} subtitle={obj.email}/>
               </Card>
             )})}
     </div>
 
   )}
+}
+
+function capitalise(word){
+  let caps = word.charAt(0).toUpperCase();
+  let restofWord = word.substring(1);
+  return `${caps}${restofWord}`
 }
 
 export default UserProfile
