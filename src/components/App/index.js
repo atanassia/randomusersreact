@@ -36,11 +36,12 @@ class App extends Component {
     return (
       <MuiThemeProvider>
         <div className="App">
-        <h1>Random User Generator</h1>
-        <h3>How many users would you like?</h3>
+        <h1>Получение данных из внешнего API</h1>
+        <h3>Введите количество пользователей.</h3>
+        <h5>при изменении количества пользователей, обновятся данные</h5>
           <form onSubmit={this.onFormSubmit}>
             <input type="number" value={this.state.num} onChange={this.onNumberChange}/>
-            <button>Submit</button>
+            <button>Найти</button>
           </form>
         </div>
       </MuiThemeProvider>
@@ -49,11 +50,12 @@ class App extends Component {
       return (
         <MuiThemeProvider>
           <div className="App">
-          <h1>Random User Generator</h1>
-          <h3>How many users would you like?</h3>
+          <h1>Получение данных из внешнего API</h1>
+          <h3>Введите количество пользователей.</h3>
+          <h5>при изменении количества пользователей, обновятся данные</h5>
             <form onSubmit={this.onFormSubmit}>
               <input type="number" value={this.state.num} onChange={this.onNumberChange}/>
-              <button>Submit</button>
+              <button>Найти</button>
             </form>
             <UserProfile number={this.state.num}/>
           </div>
